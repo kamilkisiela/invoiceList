@@ -137,6 +137,8 @@ class SortabletDirective implements angular.IDirective {
       column: $el.attr( 'sort-by')
     , direction: direction
     } );
+
+    this.localScope.$parent.$$throttledDigest();
   }
 }
 
