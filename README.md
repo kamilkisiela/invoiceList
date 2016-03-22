@@ -25,14 +25,23 @@ That is the extend of the scenario: triggering sorts which reloads the list etc.
 
 1) Reactivity with an object: not autorunning after setting of new value
 
-**[Kamil]: [See the reason](bugs.md#reactivity)**
+**[Kamil]:**
+
+> You're trying to run method of parent's scope inside callback which is outside the digest cycle.
+
+```javascript
+// columnSort.directive.ts:67
+wrapper.on( 'click', ( e ) => {
+  this.doSort( e.currentTarget );
+});
+```
 
 This still seems to be an issue, unless I am not using it correctly.
 
 The code below has the updateSort function triggered by a directive and provides a value like `{ column: 'Total', direction: 'desc' }`.
 This is set in the private variable sortColumns which is being watched (the whole variable).
 
-```
+```javascript
  this.helpers( {
 
   invoices: () => {
@@ -70,13 +79,21 @@ That looks like a bug, right?
 
 Not a bug IMO, because directive makes copy of variable and that copy is not being watched. Using the controller function to update the variable being watched makes sense.
 
+**[Kamil]:**
+
+> Same as in 1) and 3)
+
 ---
 
 3) Running in a $digest error
 
 Removing $digest is not an option right now, see issue 1.
 
-**[Kamil]: You can use this to avoid the problem:**
+
+**[Kamil]:**
+
+> You're trying to run method of parent's scope inside callback which is outside the digest cycle.
+> You can use this to avoid the problem:
 
 ```javascript
 $scope.$$throttledDigest();
@@ -101,7 +118,9 @@ Event when the dashboard is loading the subscription, a hard reload will actuall
 
 This issue is still relevant. The template apparently gets an update before the helper is finished getting the full cursor. It happens when I do multiple sorts in a row and the helper is called a couple of times with every time a new Sort command
 
-**[Kamil]: This will be fixed by the next release**
+**[Kamil]:**
+
+> This will be fixed by the next release
 
 ---
 
@@ -112,4 +131,6 @@ This issue is still relevant. The template apparently gets an update before the 
 I have added a selectbox at the top of the page which will update the users account state in Mongo (user.profile.accountState). The current state is printed in the template ( {{vm.user.profile.accountState}} ). However, when you update the value to a new state (check chrome log console to see success), the user helper doesn't rerun even when the subscription DID renew (check Meteor.users.findOne().profile.accountState in your console).
 I think the helper should rerun on changes in mongo, right?
 
-**[Kamil]: Couldn't reproduce it.**
+**[Kamil]:**
+
+> Can't reproduce it.
