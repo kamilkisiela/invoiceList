@@ -25,6 +25,8 @@ That is the extend of the scenario: triggering sorts which reloads the list etc.
 
 1) Reactivity with an object: not autorunning after setting of new value
 
+**[Kamil]: [See the reason](bugs.md#reactivity)**
+
 This still seems to be an issue, unless I am not using it correctly.
 
 The code below has the updateSort function triggered by a directive and provides a value like { column: 'Total', direction: 'desc' }.
@@ -60,13 +62,25 @@ Checking DeepWatch option now on getReactivitly().
 Setting DeepWatch to true does work partially ( don't have to reset the columnSort to {} every time), however without the $DIGEST it doesn't work. $digest call is required to make it work right now.
 That looks like a bug, right?
 
+---
+
 2) Updating controller variable directly from directive not triggering reactive update
 
 Not a bug IMO, because directive makes copy of variable and that copy is not being watched. Using the controller function to update the variable being watched makes sense.
 
+---
+
 3) Running in a $digest error
 
 Removing $digest is not an option right now, see issue 1.
+
+**[Kamil]: You can use this to avoid the problem:**
+
+```javascript
+$scope.$$throttledDigest();
+// or
+$scope.$bindToContext(context, fn);
+```
 
 4) Subscription stop issue
 
@@ -80,6 +94,8 @@ Event when the dashboard is loading the subscription, a hard reload will actuall
 5) Helper reactive reRun returns empty collection for a instant and then normal collection
 
 This issue is still relevant. The template apparently gets an update before the helper is finished getting the full cursor. It happens when I do multiple sorts in a row and the helper is called a couple of times with every time a new Sort command
+
+**[Kamil]: This will be fixed by the next release**
 
 **ADDED 17/3/2016**
 
