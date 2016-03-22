@@ -82,6 +82,8 @@ $scope.$$throttledDigest();
 $scope.$bindToContext(context, fn);
 ```
 
+---
+
 4) Subscription stop issue
 
 Unfortunately I still see the subscription stopping during Meteor Development rebuild with version 1.3.7.
@@ -91,11 +93,15 @@ It seems to happen constantly after code update and Meteor reloads the browser (
 
 Event when the dashboard is loading the subscription, a hard reload will actually break the subscription now....Actually the subscriptions seems to stop more often than on version 1.3.6
 
+---
+
 5) Helper reactive reRun returns empty collection for a instant and then normal collection
 
 This issue is still relevant. The template apparently gets an update before the helper is finished getting the full cursor. It happens when I do multiple sorts in a row and the helper is called a couple of times with every time a new Sort command
 
 **[Kamil]: This will be fixed by the next release**
+
+---
 
 **ADDED 17/3/2016**
 
