@@ -29,9 +29,10 @@ That is the extend of the scenario: triggering sorts which reloads the list etc.
 
 This still seems to be an issue, unless I am not using it correctly.
 
-The code below has the updateSort function triggered by a directive and provides a value like { column: 'Total', direction: 'desc' }.
+The code below has the updateSort function triggered by a directive and provides a value like `{ column: 'Total', direction: 'desc' }`.
 This is set in the private variable sortColumns which is being watched (the whole variable).
 
+```
  this.helpers( {
 
   invoices: () => {
@@ -49,6 +50,7 @@ updateSort( sort: any ): void {
    this.sortColumns[ sort.column ]  = sort.direction === 'desc' ? -1 : 1;
   this.$scope.$digest(); // still necessary to make the reactive update work
  }
+```
 Updating the object with another key doesn't trigger the watch on the object itself. Maybe this is because that is not how the watch should work. However with Meteor Blaze ReactiveVar (if I am remembering correctly) it DOES work.
 
 I only get the situation working if I add this.sortColyms = {} to the updateSort function and reset the object on each column order. That works but feels like a hack if the reactivity should work on an object.
