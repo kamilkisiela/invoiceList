@@ -1,7 +1,6 @@
 ## Subscription stops
 
 Can't reproduce.
-When I'm clearing cache and everything
 
 ## Reactivity
 
