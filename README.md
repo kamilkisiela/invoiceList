@@ -109,3 +109,5 @@ This issue is still relevant. The template apparently gets an update before the 
 
 I have added a selectbox at the top of the page which will update the users account state in Mongo (user.profile.accountState). The current state is printed in the template ( {{vm.user.profile.accountState}} ). However, when you update the value to a new state (check chrome log console to see success), the user helper doesn't rerun even when the subscription DID renew (check Meteor.users.findOne().profile.accountState in your console).
 I think the helper should rerun on changes in mongo, right?
+
+**[Kamil]: Couldn't reproduce it.**

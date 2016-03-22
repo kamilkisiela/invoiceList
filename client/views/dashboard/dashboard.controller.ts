@@ -75,6 +75,7 @@ class DashboardController {
       }
     ,
       user: () => {
+        console.log('user helper run');
         return Meteor.users.findOne();
       }
     } );
